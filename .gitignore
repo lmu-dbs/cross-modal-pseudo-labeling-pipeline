@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Environments
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Experiment outputs
+outputs/
+slurm_logs/
+camera_ready_runs/
+seg_runs/
+
+# Models / weights
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Archives
+*.tar
+*.tar.gz
+*.zip
+
+# Logs
+*.log
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS
+.DS_Store
+
+# Backup files
+*.bak*

@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#SBATCH --job-name=eval-lobbe
+#SBATCH --output=slurm_logs/evaluate_lobbe_%j.out
+#SBATCH --error=slurm_logs/evaluate_lobbe_%j.err
+#SBATCH --partition=major
+#SBATCH --ntasks=1
+#SBATCH --gres=gpu:1
+#SBATCH --time=02:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=24G
+
+set -e
+
+PROJECT_ROOT="/home/wiss/shubhangi/da-seg/thesis_da_segmentation/sam_clip_full"
+RUN_ROOT="$PROJECT_ROOT/camera_ready_runs"
+
+cd "$PROJECT_ROOT"
+source ../venv/bin/activate
+
+export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
+export HF_HOME="$RUN_ROOT/cache/huggingface"
+export TORCH_HOME="$RUN_ROOT/cache/torch"
+export MPLCONFIGDIR="$RUN_ROOT/cache/matplotlib"
+mkdir -p "$HF_HOME" "$TORCH_HOME" "$MPLCONFIGDIR" slurm_logs
+
+echo "Host:"
+hostname
+date
+
+echo "GPU:"
+nvidia-smi || true
+
+echo "Python:"
+which python
+python --version
+
+echo "Torch/CUDA:"
+python - <<'PY'
+import torch
+print(torch.__version__)
+print(torch.version.cuda)
+print(torch.cuda.is_available())
+print(torch.cuda.device_count())
+print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else "NO CUDA")
+PY
+
+echo "Starting final Lobbe evaluation..."
+python scripts/evaluate_deeplab_lobbe.py \
+  --max-side 1024 \
+  --save-preds
+
+echo "Done. Metrics:"
+ls -lh camera_ready_runs/final_metrics

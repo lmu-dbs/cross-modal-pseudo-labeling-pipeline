@@ -1,0 +1,39 @@
+#dataset_coco_aug_train.yaml
+dataset:
+  val:
+    images_dir: /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/thesis_outputs/coco_aug/train_imgs
+    # ann_file can stay COCO val annotations; we are not using GT for aug
+    ann_file:   /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/coco2014/annotations/instances_val2014.json
+
+  # You can either:
+  # - leave test as original COCO train (then runner will also process that),
+  # - or point it to the same aug images if you want.
+  # For simplicity, let's point it to the same aug train images,
+  # so ALL pseudo labels in this run are coco_aug train.
+  test:
+    images_dir: /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/thesis_outputs/coco_aug/train_imgs
+    ann_file:   /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/coco2014/annotations/instances_train2014.json
+
+eval:
+  # make sure you cover all your aug images
+  max_images: 1000
+  max_instances_per_image: 50
+  min_area: 100
+  use_bbox_if_no_seg: true
+  topk: [1, 3, 5]
+  pad_ratio: 0.40
+  context_ratio: 0.40
+
+output:
+  pred_csv:     /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/thesis_outputs/preds/coco_aug_train_preds.csv
+  metrics_json: /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/thesis_outputs/preds/coco_aug_train_metrics.json
+  pseudo_jsonl: /home/scs_deal_projects_notapebackup/shared/DATASET/coco2014/thesis_outputs/pseudo/coco_aug_train.jsonl
+
+clip:
+  device: "cpu"          # <- was "cuda"
+  model_name: "EVA02-L-14"
+  pretrained: "merged2b_s4b_b131k"
+  finetuned_ckpt: "/home/scs_deal_projects_notapebackup/user/shubhang/thesis/third_party/checkpoints/eva_clip_ft_coco_best.pt"
+  text_layout: "mean"
+  combine: "add"
+

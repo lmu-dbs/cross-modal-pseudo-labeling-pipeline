@@ -1,0 +1,27 @@
+
+# Model and pipeline configuration for SAM + EVA-CLIP zero-shot scoring
+sam:
+  model_type: vit_h
+  checkpoint: /home/scs_deal_projects_notapebackup/user/shubhang/thesis/third_party/checkpoints/sam_vit_h_4b8939.pth
+  device: cuda
+
+clip:
+  model_name: EVA01-g-14
+  pretrained: laion400m_s11b_b41k
+  device: cuda
+  combine: add   # options: add | concat+mlp | image_only | mask_only
+
+text:
+  labels_source: coco80  # uses the 80 COCO classes by default
+  labels: []
+  templates:
+    - "a photo of a {}."
+    - "a cropped photo of a {}."
+    - "a close-up of a {}."
+    - "a bright photo of a {}."
+    - "a low-resolution photo of a {}."
+
+inference:
+  sam_multimask_output: true
+  iou_threshold: 0.0
+  max_masks_per_image: 100

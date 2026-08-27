@@ -1,0 +1,28 @@
+# Core
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
+tqdm
+numpy
+scikit-learn
+matplotlib
+opencv-python
+Pillow
+pyyaml
+pandas
+
+# Hugging Face + CLIP + BLIP
+transformers
+sentencepiece
+open_clip_torch
+accelerate
+
+# SAM (Segment Anything)
+git+https://github.com/facebookresearch/segment-anything.git
+
+# Evaluation / annotation utilities
+pycocotools
+
+# Jupyter
+ipykernel
+notebook
