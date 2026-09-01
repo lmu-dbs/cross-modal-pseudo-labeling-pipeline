@@ -11,7 +11,7 @@ Code and experiment scaffolding for a thesis project on **unsupervised domain ad
 4) Accepted regions are rasterized into **pixel-level pseudo labels**  
 5) A segmentation model (e.g., **DeepLabV3-R50**) is **self-trained** on target images using pseudo-label supervision
 
-**Phase B (extension):**
+**Phase B:**
 For low-confidence / ambiguous regions, **BLIP** captioning provides an auxiliary language signal to refine or reject labels before training.
 
 ## Pipeline diagram
